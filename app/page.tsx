@@ -2,18 +2,18 @@
 import { UserPortrait } from "@/components/UserPortrait";
 
 export default function Home() {
-  const links = [
-    {
-      href: "https://www.linkedin.com/in/skalidin",
-      title: "Linkedin: skalidin",
-      label: "skalidin",
-    },
-    {
-      href: "https://www.github.com/skalidin",
-      title: "GitHub: skalidindi",
-      label: "skalidindi",
-    },
-  ];
+  // const links = [
+  //   {
+  //     href: "https://www.linkedin.com/in/skalidin",
+  //     title: "Linkedin: skalidin",
+  //     label: "skalidin",
+  //   },
+  //   {
+  //     href: "https://www.github.com/skalidin",
+  //     title: "GitHub: skalidindi",
+  //     label: "skalidindi",
+  //   },
+  // ];
 
   return (
     <main className="grid place-items-center h-screen">
