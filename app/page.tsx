@@ -1,10 +1,10 @@
-import { SocialTag } from "@/components/SocialTag";
-import { UserPortrait } from "@/components/UserPortrait";
 import { BlogIcon } from "@/components/icons/BlogIcon";
 import { EmailIcon } from "@/components/icons/EmailIcon";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { XIcon } from "@/components/icons/XIcon";
+import { SocialTag } from "@/components/SocialTag";
+import { UserPortrait } from "@/components/UserPortrait";
 
 export default function Home() {
   const links = [
