@@ -1,5 +1,6 @@
 import { SocialTag } from "@/components/SocialTag";
 import { UserPortrait } from "@/components/UserPortrait";
+import { BlogIcon } from "@/components/icons/BlogIcon";
 import { EmailIcon } from "@/components/icons/EmailIcon";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
@@ -31,10 +32,16 @@ export default function Home() {
       label: "Email",
       svgIcon: <EmailIcon />,
     },
+    {
+      href: "blog",
+      title: "Blog",
+      label: "Blog",
+      svgIcon: <BlogIcon />,
+    },
   ];
 
   return (
-    <main className="grid place-items-center h-screen">
+    <main className="grid place-items-center h-screen p-8">
       <section className="relative z-10 flex flex-col gap-4">
         <UserPortrait />
         <ul className="flex flex-row flex-wrap gap-2">
@@ -44,7 +51,7 @@ export default function Home() {
                 href={link.href}
                 title={link.title}
                 label={link.label}
-                svgIcon={link.svgIcon}
+                svgIcon={link.svgIcon ?? null}
               />
             </li>
           ))}

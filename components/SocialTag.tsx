@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export function SocialTag({
   href,
   title,
@@ -7,7 +9,7 @@ export function SocialTag({
   href: string;
   title: string;
   label: string;
-  svgIcon: React.ReactNode;
+  svgIcon?: ReactNode;
   iconSize?: number;
   iconColor?: string;
 }) {
@@ -19,7 +21,7 @@ export function SocialTag({
       href={href}
       title={title}
     >
-      <figure>{svgIcon}</figure>
+      {svgIcon && <figure>{svgIcon}</figure>}
       <span>{label}</span>
     </a>
   );
