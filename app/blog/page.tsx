@@ -27,7 +27,7 @@ export default function BlogsList() {
   });
 
   return (
-    <section className="flex flex-col justify-self-center h-screen p-8 w-3xl gap-4">
+    <section className="flex flex-col justify-self-center h-screen p-8 w-full sm:w-3xl gap-4">
       <BackNav href="/" heading="Home" />
       <section className="flex flex-col gap-4">
         {posts.map((item) => (

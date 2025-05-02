@@ -49,7 +49,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
   const contentHtml = processedContent.toString();
 
   return (
-    <section className="flex flex-col justify-self-center h-screen p-8 w-3xl gap-4">
+    <section className="flex flex-col justify-self-center h-screen p-8 w-full sm:w-3xl gap-4">
       <header>
         <div className="flex flex-row items-center justify-between">
           <BackNav href="/blog" heading="Blogs" />
