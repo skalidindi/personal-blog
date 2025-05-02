@@ -71,7 +71,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
           <Link rel="author" href="/">
             Santosh Kalidindi
           </Link>{" "}
-          © 2010-2025
+          © 2025
         </small>
       </footer>
     </section>
