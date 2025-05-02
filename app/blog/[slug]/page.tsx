@@ -55,7 +55,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
           <BackNav href="/blog" heading="Blogs" />
           <ShareButton title={data.title} text={data.description} path={slug} />
         </div>
-        <h1 className="font-bold text-lg">{data.title}</h1>
+        <h1 className="font-bold text-lg mt-4">{data.title}</h1>
         <div>
           By{" "}
           <address className="inline">
