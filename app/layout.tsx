@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Roboto, Roboto_Mono } from "next/font/google";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 import "./globals.css";
 
@@ -27,14 +28,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
-      >
-        {children}
-        <Analytics />
-        <SpeedInsights />
-      </body>
-    </html>
+    <ViewTransition>
+      <html lang="en">
+        <body
+          className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
+        >
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </body>
+      </html>
+    </ViewTransition>
   );
 }
