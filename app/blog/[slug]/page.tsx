@@ -78,7 +78,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
       <footer>
-        <hr className="mt-2 border-t border-gray-300 dark:border-gray-700" />
+        <hr className="border-t border-gray-300 dark:border-gray-700" />
         <small>
           <Link rel="author" href="/">
             Santosh Kalidindi

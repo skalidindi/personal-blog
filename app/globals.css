@@ -25,8 +25,8 @@ body {
   font-family: var(--font-roboto-sans);
 }
 
-.remark p {
-  margin: 1rem 0;
+.remark p:not(:last-child) {
+  margin-bottom: 1rem;
 }
 
 .remark h2 {
