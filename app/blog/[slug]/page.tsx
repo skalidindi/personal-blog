@@ -74,7 +74,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
         </em>
       </header>
       <article
-        className="remark"
+        className="prose prose-slate lg:prose-lg"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
       <footer>

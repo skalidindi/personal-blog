@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: var(--color-stone-50);
@@ -23,13 +24,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-roboto-sans);
-}
-
-.remark p:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-.remark h2 {
-  font-size: 1.25rem;
-  color: var(--color-blue-500);
 }
