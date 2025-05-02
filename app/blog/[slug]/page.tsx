@@ -10,9 +10,9 @@ import { remark } from "remark";
 import html from "remark-html";
 
 type BlogPostProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateStaticParams() {
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const postsDirectory = path.join(process.cwd(), "posts");
   const filePath = path.join(postsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(filePath, "utf8");
@@ -39,7 +39,7 @@ export async function generateMetadata({
 }
 
 export default async function BlogPost({ params }: BlogPostProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const postsDirectory = path.join(process.cwd(), "posts");
   const filePath = path.join(postsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(filePath, "utf8");
@@ -59,7 +59,11 @@ export default async function BlogPost({ params }: BlogPostProps) {
         <div>
           By{" "}
           <address className="inline">
-            <Link rel="author" className="hover:underline" href="/">
+            <Link
+              rel="author"
+              className="hover:underline active:scale-95 active:bg-gray-100 transition-transform"
+              href="/"
+            >
               Santosh Kalidindi
             </Link>
           </address>
