@@ -1,5 +1,6 @@
 import { BackNav } from "@/components/BackNav";
 import { ShareButton } from "@/components/ShareButton";
+import { formatDate } from "@/util/date";
 import matter from "gray-matter";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -63,6 +64,14 @@ export default async function BlogPost({ params }: BlogPostProps) {
             </Link>
           </address>
         </div>
+        <em>
+          <time
+            className="text-sm text-gray-600 dark:text-gray-400"
+            dateTime={data.date}
+          >
+            {formatDate(new Date(data.date).toString())}
+          </time>
+        </em>
       </header>
       <article dangerouslySetInnerHTML={{ __html: contentHtml }} />
       <footer>

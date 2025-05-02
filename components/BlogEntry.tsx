@@ -11,7 +11,7 @@ export function BlogLink({ blogItem }: { blogItem: BlogItem }) {
   return (
     <Link
       className="flex flex-col px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg dark:hover:drop-shadow-[0_4px_4px_rgba(255,255,255,0.15)] transition-shadow duration-300"
-      href={blogItem.link}
+      href={`/blog/${blogItem.link}`}
     >
       <time
         className="text-sm text-gray-600 dark:text-gray-400"
