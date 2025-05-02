@@ -83,7 +83,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
           <Link rel="author" href="/">
             Santosh Kalidindi
           </Link>{" "}
-          © 2025
+          © {new Date().getFullYear()}
         </small>
       </footer>
     </section>
