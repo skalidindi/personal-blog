@@ -24,7 +24,7 @@ export default function Blog() {
           <span className="group-hover:text-blue-500">Back</span>
         </Link>
       </nav>
-      <section className="flex flex-col gap-4">
+      <section className="mt-4 flex flex-col gap-4">
         {blogs.map((item) => (
           <BlogLink key={item.link} blogItem={item} />
         ))}
