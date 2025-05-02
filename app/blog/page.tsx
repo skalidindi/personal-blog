@@ -1,8 +1,7 @@
 import { BackNav } from "@/components/BackNav";
 import { PostLink } from "@/components/PostLink";
-import matter from "gray-matter";
+import { getPostContent, getPostsDirectory } from "@/util/post";
 import fs from "node:fs";
-import path from "node:path";
 
 export type Post = {
   slug: string;
@@ -11,13 +10,11 @@ export type Post = {
 };
 
 export default function BlogsList() {
-  const postsDirectory = path.join(process.cwd(), "posts");
+  const postsDirectory = getPostsDirectory();
   const filenames = fs.readdirSync(postsDirectory);
 
   const posts: Post[] = filenames.map((filename) => {
-    const filePath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const { data } = getPostContent(filename);
 
     return {
       slug: filename.replace(/\.md$/, ""),

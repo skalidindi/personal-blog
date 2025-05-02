@@ -1,11 +1,10 @@
 import { BackNav } from "@/components/BackNav";
 import { ShareButton } from "@/components/ShareButton";
 import { formatDate } from "@/util/date";
-import matter from "gray-matter";
+import { getPostContent, getPostsDirectory } from "@/util/post";
 import { Metadata } from "next";
 import Link from "next/link";
 import fs from "node:fs";
-import path from "node:path";
 import { remark } from "remark";
 import html from "remark-html";
 
@@ -16,7 +15,7 @@ type BlogPostProps = {
 };
 
 export async function generateStaticParams() {
-  const postsDirectory = path.join(process.cwd(), "posts");
+  const postsDirectory = getPostsDirectory();
   const filenames = fs.readdirSync(postsDirectory);
 
   return filenames.map((filename) => ({
@@ -28,10 +27,7 @@ export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
   const { slug } = await params;
-  const postsDirectory = path.join(process.cwd(), "posts");
-  const filePath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const { data } = matter(fileContents);
+  const { data } = getPostContent(`${slug}.md`);
 
   return {
     title: data.title,
@@ -40,11 +36,8 @@ export async function generateMetadata({
 
 export default async function BlogPost({ params }: BlogPostProps) {
   const { slug } = await params;
-  const postsDirectory = path.join(process.cwd(), "posts");
-  const filePath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(filePath, "utf8");
 
-  const { data, content } = matter(fileContents);
+  const { data, content } = getPostContent(`${slug}.md`);
   const processedContent = await remark().use(html).process(content);
   const contentHtml = processedContent.toString();
 
