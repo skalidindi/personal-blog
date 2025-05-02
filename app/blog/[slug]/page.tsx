@@ -73,7 +73,10 @@ export default async function BlogPost({ params }: BlogPostProps) {
           </time>
         </em>
       </header>
-      <article dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <article
+        className="remark"
+        dangerouslySetInnerHTML={{ __html: contentHtml }}
+      />
       <footer>
         <hr className="mt-2 border-t border-gray-300 dark:border-gray-700" />
         <small>

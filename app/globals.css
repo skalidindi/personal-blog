@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-roboto-sans);
 }
+
+.remark p {
+  margin: 1rem 0;
+}
+
+.remark h2 {
+  font-size: 1.25rem;
+  color: var(--color-blue-500);
+}
