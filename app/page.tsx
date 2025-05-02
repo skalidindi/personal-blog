@@ -1,10 +1,8 @@
-import { BlogIcon } from "@/components/icons/BlogIcon";
-import { EmailIcon } from "@/components/icons/EmailIcon";
-import { GithubIcon } from "@/components/icons/GithubIcon";
-import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
-import { XIcon } from "@/components/icons/XIcon";
+import { LinkedInIcon } from "@/components/LinkedInIcon";
 import { SocialTag } from "@/components/SocialTag";
 import { UserPortrait } from "@/components/UserPortrait";
+import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
+import { Mail, Rss } from "lucide-react";
 
 export default function Home() {
   const links = [
@@ -18,25 +16,25 @@ export default function Home() {
       href: "https://github.com/skalidindi",
       title: "GitHub: skalidindi",
       label: "skalidindi",
-      svgIcon: <GithubIcon />,
+      svgIcon: <SiGithub size={16} />,
     },
     {
       href: "https://x.com/skalidin",
       title: "X: skalidin",
       label: "skalidin",
-      svgIcon: <XIcon />,
+      svgIcon: <SiX size={14} />,
     },
     {
       href: "mailto:skalidindi8@gmail.com?subject=Hello%20there&body=I%20wanted%20to%20reach%20out%20to%20you.",
       title: "Email: skalidindi8@gmail.com",
       label: "Email",
-      svgIcon: <EmailIcon />,
+      svgIcon: <Mail size={16} />,
     },
     {
       href: "blog",
       title: "Blog",
       label: "Blog",
-      svgIcon: <BlogIcon />,
+      svgIcon: <Rss size={16} />,
     },
   ];
 
