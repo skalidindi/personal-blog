@@ -25,3 +25,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-roboto-sans);
 }
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}

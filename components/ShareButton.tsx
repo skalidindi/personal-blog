@@ -32,7 +32,7 @@ export function ShareButton({
   return (
     <Share2
       onClick={handleShare}
-      className="cursor-pointer transition-transform transform hover:text-blue-500"
+      className="cursor-pointer transition-transform transform hover:text-blue-500 active:scale-95 active:text-blue-500"
     />
   );
 }

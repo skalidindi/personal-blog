@@ -5,7 +5,7 @@ import Link from "next/link";
 export function PostLink({ post }: { post: Post }) {
   return (
     <Link
-      className="flex flex-col px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg dark:hover:drop-shadow-[0_4px_4px_rgba(255,255,255,0.15)] transition-shadow duration-300"
+      className="flex flex-col px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg dark:hover:drop-shadow-[0_4px_4px_rgba(255,255,255,0.15)] transition-shadow duration-300 active:scale-95 active:bg-gray-100 dark:active:bg-gray-700"
       href={`/blog/${post.slug}`}
     >
       <time
