@@ -32,7 +32,7 @@ export default function Home() {
       svgIcon: <Mail size={16} />,
     },
     {
-      href: "blog",
+      href: "/blog",
       title: "Blog",
       label: "Blog",
       svgIcon: <Rss size={16} />,

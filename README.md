@@ -1,5 +1,7 @@
 # Personal Blog
 
+[![CI](https://github.com/skalidindi/personal-blog/actions/workflows/ci.yml/badge.svg)](https://github.com/skalidindi/personal-blog/actions/workflows/ci.yml)
+
 Welcome to my personal blog project built with Next.js!
 
 ## Overview
@@ -20,7 +22,8 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-Make sure you have Node.js and npm installed on your machine.
+- Node.js 24.21.0 (see `.node-version`)
+- npm 11.19.0
 
 ### Installation
 
@@ -28,16 +31,44 @@ Make sure you have Node.js and npm installed on your machine.
    ```sh
    git clone git@github.com:skalidindi/personal-blog.git
    ```
-2. Install NPM packages
+2. Install npm packages
    ```sh
    npm install
    ```
-3. Run the development server
+3. Install Chromium for end-to-end tests
+   ```sh
+   npx playwright install chromium
+   ```
+4. Run the development server
    ```sh
    npm run dev
    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Use `npm run dev` while editing for Fast Refresh. `npm run start` serves the
+last production build and does not watch source files.
+
+## Quality checks
+
+The project uses Oxlint for linting, Oxfmt for formatting, Vitest for fast
+functional tests, and Playwright for browser-level end-to-end tests.
+
+```sh
+npm run lint          # lint the project
+npm run lint:fix      # apply safe lint fixes
+npm run fmt:check     # check formatting
+npm run fmt           # format the project
+npm run typecheck     # run TypeScript without emitting files
+npm test              # run Vitest once
+npm run test:watch    # run Vitest in watch mode
+npm run test:e2e      # build the app and run the Playwright test in Chromium
+npm run check         # lint, format-check, type-check, and run Vitest
+npm run check:all     # run all checks, Playwright, and a production build
+```
+
+Lefthook runs Oxlint and Oxfmt against staged files before each commit. GitHub
+Actions repeats the complete quality suite and production E2E test on every
+pull request and push to `main`; hooks are only the faster local feedback loop.
 
 ## Usage
 

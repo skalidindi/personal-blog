@@ -1,10 +1,10 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
-  plugins: ["react", "nextjs", "import", "jsx-a11y", "typescript"],
-  categories: {
-    correctness: "off",
+  options: {
+    typeAware: true,
   },
+  plugins: ["react", "nextjs", "import", "jsx-a11y", "typescript", "vitest"],
   env: {
     builtin: true,
     browser: true,
@@ -86,5 +86,9 @@ export default defineConfig({
     "typescript/prefer-as-const": "error",
     "typescript/prefer-namespace-keyword": "error",
     "typescript/triple-slash-reference": "error",
+    "vitest/expect-expect": "error",
+    "vitest/no-disabled-tests": "warn",
+    "vitest/no-focused-tests": "error",
+    "vitest/valid-expect": "error",
   },
 });

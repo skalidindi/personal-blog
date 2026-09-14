@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build --turbopack",
-    "check": "npm run lint && npm run fmt:check",
-    "dev": "next dev --turbopack",
-    "lint": "oxlint",
+    "build": "next build",
+    "check": "npm run lint && npm run fmt:check && npm run typecheck && npm test",
+    "check:all": "npm run check && npm run test:e2e",
+    "dev": "next dev",
+    "lint": "oxlint --deny-warnings",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:watch": "vitest",
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.15.1",
@@ -27,14 +32,32 @@
     "remark-html": "^16.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^26",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.13.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "lefthook": "^2.1.12",
     "oxfmt": "^0.67.0",
     "oxlint": "^1.82.0",
-    "tailwindcss": "^4",
-    "typescript": "^7"
+    "oxlint-tsgolint": "^7.0.2001",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7",
+    "vitest": "^5.0.0"
+  },
+  "overrides": {
+    "gray-matter": {
+      "js-yaml": "^3.15.2"
+    },
+    "mdast-util-to-hast": "^13.2.1"
+  },
+  "engines": {
+    "node": ">=24.21.0 <25",
+    "npm": ">=11.19.0 <12"
+  },
+  "packageManager": "npm@11.19.0",
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "lefthook@2.1.12": true
   }
 }
