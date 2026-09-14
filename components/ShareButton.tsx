@@ -30,9 +30,13 @@ export function ShareButton({
   };
 
   return (
-    <Share2
-      onClick={handleShare}
+    <button
+      aria-label={`Share ${title}`}
       className="cursor-pointer transition-transform transform hover:text-blue-500 active:scale-95 active:text-blue-500"
-    />
+      onClick={handleShare}
+      type="button"
+    >
+      <Share2 />
+    </button>
   );
 }

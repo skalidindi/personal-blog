@@ -22,8 +22,8 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-- Node.js 24.21.0 (see `.node-version`)
-- npm 11.19.0
+- Node.js 26.8.2 (see `.node-version`)
+- npm 12.0.2
 
 Volta users do not need to switch versions manually. The `volta` section in
 `package.json` pins both tools, so `node` and `npm` automatically resolve to
@@ -54,20 +54,22 @@ last production build and does not watch source files.
 
 ## Quality checks
 
-The project uses Oxlint for linting, Oxfmt for formatting, Vitest for fast
-functional tests, Playwright for browser-level end-to-end tests, and the React
-Compiler for automatic component memoization.
+The project uses Oxlint for linting, Oxfmt for formatting, Vitest and React
+Testing Library for component and functional tests, Knip for unused-code and
+dependency checks, Playwright for browser-level end-to-end tests, and the
+React Compiler for automatic component memoization.
 
 ```sh
 npm run lint          # lint the project
 npm run lint:fix      # apply safe lint fixes
 npm run fmt:check     # check formatting
 npm run fmt           # format the project
+npm run knip          # find unused files, exports, and dependencies
 npm run typecheck     # run TypeScript without emitting files
 npm test              # run Vitest once
 npm run test:watch    # run Vitest in watch mode
 npm run test:e2e      # build the app and run the Playwright test in Chromium
-npm run check         # lint, format-check, type-check, and run Vitest
+npm run check         # lint, format, types, Vitest, and Knip
 npm run check:all     # run all checks, Playwright, and a production build
 ```
 

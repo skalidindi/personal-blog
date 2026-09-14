@@ -1,0 +1,82 @@
+export const metadata = {
+  title: "Four ES2026 features worth using",
+  date: "2026-09-13",
+  description:
+    "Practical examples of Map upsert, iterator sequencing, lossless JSON parsing, and Uint8Array base64 APIs",
+  author: "Santosh Kalidindi",
+};
+
+TC39's [finished proposals](https://github.com/tc39/proposals/blob/main/finished-proposals.md)
+place these APIs in ES2026. Each one replaces code I have written often enough
+to recognize on sight.
+
+## Map upsert without a manual branch
+
+`Map.prototype.getOrInsertComputed` returns the existing value or computes,
+stores, and returns a new one. The callback only runs for a missing key.
+
+```js
+const users = new Map();
+
+function getUser(id) {
+  return users.getOrInsertComputed(id, (key) => ({
+    id: key,
+    loadedAt: Date.now(),
+  }));
+}
+```
+
+This removes the repeated `has`, `get`, `set` sequence without changing `Map`
+semantics.
+
+## Join iterables lazily
+
+`Iterator.concat` accepts any mix of iterables and returns one lazy iterator.
+It does not allocate intermediate arrays.
+
+```js
+const deployTargets = Iterator.concat(["api", "worker"], new Set(["cron"]));
+
+console.log([...deployTargets]);
+// ["api", "worker", "cron"]
+```
+
+The inputs remain separate until iteration starts, which helps when one of them
+is a generator or a large collection.
+
+## Recover exact numbers from JSON
+
+The `JSON.parse` reviver now receives the original source text for primitive
+values. That matters when a JSON integer exceeds JavaScript's safe integer
+range.
+
+```js
+const invoice = JSON.parse(
+  '{"cents": 9007199254740993}',
+  (key, value, context) => (key === "cents" ? BigInt(context.source) : value),
+);
+
+console.log(invoice.cents);
+// 9007199254740993n
+```
+
+Without `context.source`, the number has already lost precision before the
+reviver sees it.
+
+## Encode bytes without browser helpers
+
+`Uint8Array` can decode and encode base64 directly. The code works on bytes,
+so it avoids the string conversions required by `atob` and `btoa`.
+
+```js
+const bytes = Uint8Array.fromBase64("SGVsbG8=");
+
+console.log(bytes);
+// Uint8Array(5) [72, 101, 108, 108, 111]
+
+console.log(bytes.toBase64());
+// "SGVsbG8="
+```
+
+Node 26 runs all four examples. Browser support still varies, so check the
+runtime targets before deleting a compatibility layer.

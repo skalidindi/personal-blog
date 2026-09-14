@@ -18,6 +18,12 @@
     --background: var(--color-gray-950);
     --foreground: var(--color-white);
   }
+
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
 }
 
 body {

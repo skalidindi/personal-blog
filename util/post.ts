@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { notFound } from "next/navigation";
 import type { ComponentType } from "react";
 
-export type PostMetadata = {
+type PostMetadata = {
   author: string;
   date: string;
   description: string;
@@ -15,7 +16,7 @@ type PostModule = {
   metadata: PostMetadata;
 };
 
-export function getPostsDirectory() {
+function getPostsDirectory() {
   return path.join(process.cwd(), "posts");
 }
 
@@ -30,5 +31,9 @@ export function getPostSlugs() {
 }
 
 export async function getPost(slug: string): Promise<PostModule> {
+  if (!getPostSlugs().includes(slug)) {
+    notFound();
+  }
+
   return import(`@/posts/${slug}.mdx`);
 }
