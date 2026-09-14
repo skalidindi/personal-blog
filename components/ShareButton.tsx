@@ -32,11 +32,12 @@ export function ShareButton({
   return (
     <button
       aria-label={`Share ${title}`}
-      className="transform cursor-pointer transition-transform hover:text-blue-500 active:scale-95 active:text-blue-500"
+      className="inline-flex transform cursor-pointer items-center gap-2 transition-transform hover:text-blue-500 active:scale-95 active:text-blue-500"
       onClick={handleShare}
       type="button"
     >
-      <Share2 />
+      <Share2 aria-hidden="true" size={18} />
+      <span>Share</span>
     </button>
   );
 }

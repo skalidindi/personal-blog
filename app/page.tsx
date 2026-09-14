@@ -26,7 +26,7 @@ export default function Home() {
       svgIcon: <SiX size={14} />,
     },
     {
-      href: "mailto:skalidindi8@gmail.com?subject=Hello%20there&body=I%20wanted%20to%20reach%20out%20to%20you.",
+      href: "mailto:skalidindi8@gmail.com?subject=Hello",
       title: "Email: skalidindi8@gmail.com",
       label: "Email",
       svgIcon: <Mail size={16} />,

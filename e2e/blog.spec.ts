@@ -49,6 +49,13 @@ async function expectBlogPostingJsonLd(page: Page) {
 test("the homepage exposes navigation and canonical metadata", async ({
   page,
 }) => {
+  const hydrationErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error" && /hydrat/i.test(message.text())) {
+      hydrationErrors.push(message.text());
+    }
+  });
+
   const response = await page.goto("/");
   const contentSecurityPolicy = response?.headers()["content-security-policy"];
 
@@ -65,6 +72,27 @@ test("the homepage exposes navigation and canonical metadata", async ({
     "/blog",
   );
   await expectCanonical(page, "/");
+
+  const wasDark = await page
+    .locator("html")
+    .evaluate((element) => element.classList.contains("dark"));
+  await page.getByRole("button", { name: "Toggle color theme" }).click();
+  await expect
+    .poll(() =>
+      page
+        .locator("html")
+        .evaluate((element) => element.classList.contains("dark")),
+    )
+    .toBe(!wasDark);
+  await page.reload();
+  await expect
+    .poll(() =>
+      page
+        .locator("html")
+        .evaluate((element) => element.classList.contains("dark")),
+    )
+    .toBe(!wasDark);
+  expect(hydrationErrors).toEqual([]);
 
   const githubLink = page.locator('a[href="https://github.com/skalidindi"]');
   await expect(githubLink).toHaveAttribute("target", "_blank");

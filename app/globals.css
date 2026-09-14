@@ -1,9 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: var(--color-stone-50);
   --foreground: var(--color-gray-800);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -13,17 +15,16 @@
   --font-mono: var(--font-roboto-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-gray-950);
-    --foreground: var(--color-white);
-  }
+.dark {
+  --background: var(--color-gray-950);
+  --foreground: var(--color-white);
+  color-scheme: dark;
+}
 
-  .shiki,
-  .shiki span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-  }
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
 }
 
 a {

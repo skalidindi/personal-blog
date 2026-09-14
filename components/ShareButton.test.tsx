@@ -30,6 +30,8 @@ describe("ShareButton", () => {
       }),
     );
 
+    expect(screen.getByText("Share")).toBeVisible();
+
     expect(share).toHaveBeenCalledWith({
       title: "Four ES2026 features worth using",
       text: "Four useful JavaScript features",

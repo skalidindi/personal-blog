@@ -22,17 +22,7 @@ export function UserPortrait() {
           Spicy food enthusiast 🌶️
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          <em className="inline-flex items-center gap-1">
-            More importantly,{" "}
-            <Image
-              src="https://static.wikia.nocookie.net/dota2_gamepedia/images/0/00/Shadow_Fiend_minimap_icon.png/revision/latest?cb=20140924021543"
-              alt="Shadow Fiend"
-              width={16}
-              height={16}
-              title="Dota 2 Hero: Shadow Fiend"
-            />{" "}
-            mid lane
-          </em>
+          Will cross time zones for a good meal. ✈️
         </p>
       </figcaption>
     </figure>
