@@ -125,7 +125,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
       <div className="grid min-w-0 gap-12 lg:grid-cols-[13rem_minmax(0,48rem)]">
         <TableOfContents headings={post.headings} />
-        <article className="prose prose-slate min-w-0 max-w-none prose-headings:scroll-mt-8 prose-headings:tracking-tight prose-a:underline-offset-4 dark:prose-invert">
+        <article className="prose prose-slate prose-headings:scroll-mt-8 prose-headings:tracking-tight prose-a:underline-offset-4 dark:prose-invert max-w-none min-w-0">
           <Content />
         </article>
       </div>

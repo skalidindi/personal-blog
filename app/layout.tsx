@@ -60,7 +60,7 @@ export default function RootLayout({
         lang="en"
       >
         <body
-          className={`${robotoSans.variable} ${robotoMono.variable} min-w-80 bg-background font-sans text-foreground antialiased`}
+          className={`${robotoSans.variable} ${robotoMono.variable} bg-background text-foreground min-w-80 font-sans antialiased`}
         >
           {children}
           <Analytics />
