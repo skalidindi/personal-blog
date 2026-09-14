@@ -1,8 +1,6 @@
-import fs from "node:fs";
-
 import { BackNav } from "@/components/BackNav";
 import { PostLink } from "@/components/PostLink";
-import { getPostContent, getPostsDirectory } from "@/util/post";
+import { getPost, getPostSlugs } from "@/util/post";
 
 export type Post = {
   slug: string;
@@ -10,19 +8,18 @@ export type Post = {
   date: string;
 };
 
-export default function BlogsList() {
-  const postsDirectory = getPostsDirectory();
-  const filenames = fs.readdirSync(postsDirectory);
+export default async function BlogsList() {
+  const posts: Post[] = await Promise.all(
+    getPostSlugs().map(async (slug) => {
+      const { metadata } = await getPost(slug);
 
-  const posts: Post[] = filenames.map((filename) => {
-    const { data } = getPostContent(filename);
-
-    return {
-      slug: filename.replace(/\.md$/, ""),
-      title: data.title,
-      date: data.date,
-    };
-  });
+      return {
+        slug,
+        title: metadata.title,
+        date: metadata.date,
+      };
+    }),
+  );
 
   return (
     <section className="flex flex-col justify-self-center h-screen p-8 w-full sm:w-3xl gap-4">

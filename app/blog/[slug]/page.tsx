@@ -1,14 +1,10 @@
-import fs from "node:fs";
-
 import { Metadata } from "next";
 import Link from "next/link";
-import { remark } from "remark";
-import html from "remark-html";
 
 import { BackNav } from "@/components/BackNav";
 import { ShareButton } from "@/components/ShareButton";
 import { formatDate } from "@/util/date";
-import { getPostContent, getPostsDirectory } from "@/util/post";
+import { getPost, getPostSlugs } from "@/util/post";
 
 type BlogPostProps = {
   params: Promise<{
@@ -17,40 +13,39 @@ type BlogPostProps = {
 };
 
 export async function generateStaticParams() {
-  const postsDirectory = getPostsDirectory();
-  const filenames = fs.readdirSync(postsDirectory);
-
-  return filenames.map((filename) => ({
-    slug: filename.replace(/\.md$/, ""),
-  }));
+  return getPostSlugs().map((slug) => ({ slug }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
   const { slug } = await params;
-  const { data } = getPostContent(`${slug}.md`);
+  const { metadata } = await getPost(slug);
 
   return {
-    title: data.title,
+    title: metadata.title,
+    description: metadata.description,
   };
 }
 
 export default async function BlogPost({ params }: BlogPostProps) {
   const { slug } = await params;
-
-  const { data, content } = getPostContent(`${slug}.md`);
-  const processedContent = await remark().use(html).process(content);
-  const contentHtml = processedContent.toString();
+  const { default: Post, metadata } = await getPost(slug);
 
   return (
     <section className="flex flex-col justify-self-center h-screen p-8 w-full sm:w-3xl gap-4">
       <header>
         <div className="flex flex-row items-center justify-between">
           <BackNav href="/blog" heading="Blogs" />
-          <ShareButton title={data.title} text={data.description} path={slug} />
+          <ShareButton
+            title={metadata.title}
+            text={metadata.description}
+            path={slug}
+          />
         </div>
-        <h1 className="font-bold text-lg mt-4">{data.title}</h1>
+        <h1 className="font-bold text-lg mt-4">{metadata.title}</h1>
         <div>
           By{" "}
           <address className="inline">
@@ -66,16 +61,15 @@ export default async function BlogPost({ params }: BlogPostProps) {
         <em>
           <time
             className="text-sm text-gray-600 dark:text-gray-400"
-            dateTime={data.date}
+            dateTime={metadata.date}
           >
-            {formatDate(new Date(data.date).toString())}
+            {formatDate(new Date(metadata.date).toString())}
           </time>
         </em>
       </header>
-      <article
-        className="prose prose-slate lg:prose-lg"
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      />
+      <article className="prose prose-slate lg:prose-lg dark:prose-invert">
+        <Post />
+      </article>
       <footer>
         <hr className="border-t border-gray-300 dark:border-gray-700" />
         <small>

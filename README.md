@@ -81,7 +81,8 @@ be enabled and the two CI jobs should be required by `main` branch protection.
 
 ## Usage
 
-- **Adding Posts**: Add your markdown files to the `posts` directory.
+- **Adding Posts**: Add `.mdx` files with an exported `metadata` object to the
+  `posts` directory. MDX posts can use React components alongside Markdown.
 - **Customizing**: Modify the components and styles to fit your personal style.
 
 ## Deployment
