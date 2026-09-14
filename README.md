@@ -22,11 +22,11 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-- Node.js 26.8.2 (see `.node-version`)
-- npm 12.0.2
+- Node.js 24.21.0 (see `.node-version`)
+- pnpm 12.4.1
 
 Volta users do not need to switch versions manually. The `volta` section in
-`package.json` pins both tools, so `node` and `npm` automatically resolve to
+`package.json` pins both tools, so `node` and `pnpm` automatically resolve to
 the project versions while working anywhere inside this repository.
 
 ### Installation
@@ -35,21 +35,21 @@ the project versions while working anywhere inside this repository.
    ```sh
    git clone git@github.com:skalidindi/personal-blog.git
    ```
-2. Install npm packages
+2. Install dependencies
    ```sh
-   npm install
+   pnpm install
    ```
 3. Install Chromium for end-to-end tests
    ```sh
-   npx playwright install chromium
+   pnpm exec playwright install chromium
    ```
 4. Run the development server
    ```sh
-   npm run dev
+   pnpm dev
    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-Use `npm run dev` while editing for Fast Refresh. `npm run start` serves the
+Use `pnpm dev` while editing for Fast Refresh. `pnpm start` serves the
 last production build and does not watch source files.
 
 ## Quality checks
@@ -60,23 +60,23 @@ dependency checks, Playwright for browser-level end-to-end tests, and the
 React Compiler for automatic component memoization.
 
 ```sh
-npm run lint          # lint the project
-npm run lint:fix      # apply safe lint fixes
-npm run fmt:check     # check formatting
-npm run fmt           # format the project
-npm run knip          # find unused files, exports, and dependencies
-npm run typecheck     # run TypeScript without emitting files
-npm test              # run Vitest once
-npm run test:watch    # run Vitest in watch mode
-npm run test:e2e      # build the app and run the Playwright test in Chromium
-npm run check         # lint, format, types, Vitest, and Knip
-npm run check:all     # run all checks, Playwright, and a production build
+pnpm lint          # lint the project
+pnpm lint:fix      # apply safe lint fixes
+pnpm fmt:check     # check formatting
+pnpm fmt           # format the project
+pnpm knip          # find unused files, exports, and dependencies
+pnpm typecheck     # run TypeScript without emitting files
+pnpm test          # run Vitest once
+pnpm test:watch    # run Vitest in watch mode
+pnpm test:e2e      # build the app and run the Playwright test in Chromium
+pnpm check         # lint, format, types, Vitest, and Knip
+pnpm check:all     # run all checks, Playwright, and a production build
 ```
 
 Lefthook runs Oxlint and Oxfmt against staged files before each commit. GitHub
 Actions repeats the complete quality suite and production E2E test on every
 pull request and push to `main`; hooks are only the faster local feedback loop.
-Dependabot checks npm and GitHub Actions weekly and enables auto-merge for
+Dependabot checks JavaScript dependencies and GitHub Actions weekly and enables auto-merge for
 minor and patch upgrades after the repository's required checks pass. Major
 upgrades remain manual. GitHub's repository setting **Allow auto-merge** must
 be enabled and the two CI jobs should be required by `main` branch protection.

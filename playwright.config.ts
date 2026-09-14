@@ -20,8 +20,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command:
-      "npm run build && npm run start -- --hostname 127.0.0.1 --port 3100",
+    command: "pnpm build && pnpm start --hostname 127.0.0.1 --port 3100",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     stdout: "ignore",
