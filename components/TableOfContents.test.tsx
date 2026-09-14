@@ -15,7 +15,7 @@ describe("TableOfContents", () => {
     const elements = headings.map(({ id }, index) => {
       const element = document.createElement("h2");
       element.id = id;
-      element.getBoundingClientRect = () => ({ top: tops[index] }) as DOMRect;
+      element.getBoundingClientRect = () => new DOMRect(0, tops[index]);
       document.body.append(element);
       return element;
     });

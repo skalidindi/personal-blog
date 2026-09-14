@@ -43,6 +43,18 @@ type FilterOptions = {
   includeDrafts?: boolean;
 };
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isPostModule(value: unknown): value is PostModule {
+  return (
+    isRecord(value) &&
+    "metadata" in value &&
+    typeof value.default === "function"
+  );
+}
+
 function getPostsDirectory() {
   return path.join(process.cwd(), "posts");
 }
@@ -163,11 +175,11 @@ export function validatePostMetadata(
   source: string,
   sourceFile: string,
 ): PostMetadata {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+  if (!isRecord(value)) {
     throw new Error(`${sourceFile}: metadata must be an object`);
   }
 
-  const metadata = value as Record<string, unknown>;
+  const metadata = value;
   const title = requiredString(metadata, "title", sourceFile);
   const description = requiredString(metadata, "description", sourceFile);
   const slug = requiredString(metadata, "slug", sourceFile);
@@ -267,7 +279,7 @@ export function extractHeadings(source: string): PostHeading[] {
       continue;
     }
     headings.push({
-      depth: heading ? (heading[1].length as 2 | 3) : 2,
+      depth: heading?.[1] === "###" ? 3 : 2,
       id: slugger.slug(text),
       text,
     });
@@ -284,9 +296,12 @@ const loadPosts = cache(async (): Promise<Post[]> => {
         path.join(getPostsDirectory(), sourceFile),
         "utf8",
       );
-      const postModule = (await import(
-        `@/posts/${fileSlug}.mdx`
-      )) as PostModule;
+      const postModule: unknown = await import(`@/posts/${fileSlug}.mdx`);
+      if (!isPostModule(postModule)) {
+        throw new Error(
+          `${sourceFile}: must export metadata and a default MDX component`,
+        );
+      }
       const metadata = validatePostMetadata(
         postModule.metadata,
         source,

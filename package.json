@@ -8,7 +8,7 @@
     "check": "pnpm lint && pnpm fmt:check && pnpm typecheck && pnpm test && pnpm knip",
     "check:all": "pnpm check && pnpm test:e2e",
     "dev": "next dev",
-    "lint": "oxlint --deny-warnings",
+    "lint": "oxlint --deny-warnings --report-unused-disable-directives",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",

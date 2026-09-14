@@ -1,6 +1,9 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
+  categories: {
+    suspicious: "warn",
+  },
   options: {
     typeAware: true,
   },
@@ -53,6 +56,7 @@ export default defineConfig({
     "prefer-const": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",
+    "react/react-in-jsx-scope": "off",
     "react/display-name": "error",
     "react/exhaustive-deps": "warn",
     "react/jsx-key": "error",
@@ -91,4 +95,12 @@ export default defineConfig({
     "vitest/no-focused-tests": "error",
     "vitest/valid-expect": "error",
   },
+  overrides: [
+    {
+      files: ["app/layout.tsx", "vitest.setup.ts"],
+      rules: {
+        "import/no-unassigned-import": "off",
+      },
+    },
+  ],
 });

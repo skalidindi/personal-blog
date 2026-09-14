@@ -16,7 +16,7 @@ export function TableOfContents({ headings }: { headings: PostHeading[] }) {
       .filter((element): element is HTMLElement => element !== null);
 
     if (elements.length === 0) {
-      return;
+      return undefined;
     }
 
     let frame: number | undefined;
