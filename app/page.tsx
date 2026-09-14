@@ -1,8 +1,9 @@
+import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
+import { Mail, Rss } from "lucide-react";
+
 import { LinkedInIcon } from "@/components/LinkedInIcon";
 import { SocialTag } from "@/components/SocialTag";
 import { UserPortrait } from "@/components/UserPortrait";
-import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
-import { Mail, Rss } from "lucide-react";
 
 export default function Home() {
   const links = [
@@ -19,9 +20,9 @@ export default function Home() {
       svgIcon: <SiGithub size={16} />,
     },
     {
-      href: "https://x.com/skalidin",
-      title: "X: skalidin",
-      label: "skalidin",
+      href: "https://x.com/malfunkt1on",
+      title: "X: malfunkt1on",
+      label: "malfunkt1on",
       svgIcon: <SiX size={14} />,
     },
     {

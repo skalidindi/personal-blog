@@ -1,12 +1,14 @@
+import fs from "node:fs";
+
+import { Metadata } from "next";
+import Link from "next/link";
+import { remark } from "remark";
+import html from "remark-html";
+
 import { BackNav } from "@/components/BackNav";
 import { ShareButton } from "@/components/ShareButton";
 import { formatDate } from "@/util/date";
 import { getPostContent, getPostsDirectory } from "@/util/post";
-import { Metadata } from "next";
-import Link from "next/link";
-import fs from "node:fs";
-import { remark } from "remark";
-import html from "remark-html";
 
 type BlogPostProps = {
   params: Promise<{

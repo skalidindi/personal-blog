@@ -1,6 +1,7 @@
+import Link from "next/link";
+
 import { Post } from "@/app/blog/page";
 import { formatDate } from "@/util/date";
-import Link from "next/link";
 
 export function PostLink({ post }: { post: Post }) {
   return (

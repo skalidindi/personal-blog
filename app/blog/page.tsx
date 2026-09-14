@@ -1,7 +1,8 @@
+import fs from "node:fs";
+
 import { BackNav } from "@/components/BackNav";
 import { PostLink } from "@/components/PostLink";
 import { getPostContent, getPostsDirectory } from "@/util/post";
-import fs from "node:fs";
 
 export type Post = {
   slug: string;
