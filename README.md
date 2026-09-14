@@ -25,6 +25,10 @@ To get a local copy up and running, follow these simple steps.
 - Node.js 24.21.0 (see `.node-version`)
 - npm 11.19.0
 
+Volta users do not need to switch versions manually. The `volta` section in
+`package.json` pins both tools, so `node` and `npm` automatically resolve to
+the project versions while working anywhere inside this repository.
+
 ### Installation
 
 1. Clone the repo
@@ -51,7 +55,8 @@ last production build and does not watch source files.
 ## Quality checks
 
 The project uses Oxlint for linting, Oxfmt for formatting, Vitest for fast
-functional tests, and Playwright for browser-level end-to-end tests.
+functional tests, Playwright for browser-level end-to-end tests, and the React
+Compiler for automatic component memoization.
 
 ```sh
 npm run lint          # lint the project
@@ -69,6 +74,10 @@ npm run check:all     # run all checks, Playwright, and a production build
 Lefthook runs Oxlint and Oxfmt against staged files before each commit. GitHub
 Actions repeats the complete quality suite and production E2E test on every
 pull request and push to `main`; hooks are only the faster local feedback loop.
+Dependabot checks npm and GitHub Actions weekly and enables auto-merge for
+minor and patch upgrades after the repository's required checks pass. Major
+upgrades remain manual. GitHub's repository setting **Allow auto-merge** must
+be enabled and the two CI jobs should be required by `main` branch protection.
 
 ## Usage
 
