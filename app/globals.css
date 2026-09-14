@@ -26,12 +26,12 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-roboto-sans);
-}
-
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+:where(a, button, [tabindex="0"]):focus-visible {
+  border-radius: 0.25rem;
+  outline: 3px solid var(--color-blue-500);
+  outline-offset: 3px;
 }

@@ -40,7 +40,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="grid place-items-center h-screen p-8">
+    <main className="grid min-h-dvh place-items-center p-8">
       <section className="relative z-10 flex flex-col gap-4">
         <UserPortrait />
         <ul className="flex flex-row flex-wrap gap-2">

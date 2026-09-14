@@ -8,9 +8,12 @@ describe("PostLink", () => {
     render(
       <PostLink
         post={{
+          description: "Practical examples of new JavaScript APIs.",
           slug: "es2026-features",
           title: "Four ES2026 features worth using",
-          date: "2026-09-13",
+          publishedAt: "2026-09-13",
+          readingTimeMinutes: 3,
+          tags: ["JavaScript"],
         }}
       />,
     );
@@ -24,6 +27,11 @@ describe("PostLink", () => {
     expect(screen.getByText("September 13, 2026")).toHaveAttribute(
       "datetime",
       "2026-09-13",
+    );
+    expect(screen.getByText("3 min read")).toBeVisible();
+    expect(screen.getByRole("link", { name: "JavaScript" })).toHaveAttribute(
+      "href",
+      "/blog/tags/javascript",
     );
   });
 });

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import { type ReactNode, ViewTransition } from "react";
 
+import { siteConfig } from "@/util/site";
+
 import "./globals.css";
 
 const robotoSans = Roboto({
@@ -17,8 +19,32 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Santosh Kalidindi",
-  description: "Personal website of Santosh Kalidindi",
+  metadataBase: siteConfig.url,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  authors: [siteConfig.author],
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": "/rss.xml",
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
 };
 
 export default function RootLayout({
@@ -28,9 +54,13 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransition>
-      <html lang="en">
+      <html
+        className="scroll-smooth motion-reduce:scroll-auto"
+        data-scroll-behavior="smooth"
+        lang="en"
+      >
         <body
-          className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
+          className={`${robotoSans.variable} ${robotoMono.variable} min-w-80 bg-background font-sans text-foreground antialiased`}
         >
           {children}
           <Analytics />

@@ -1,9 +1,10 @@
 export const metadata = {
   title: "Four ES2026 features worth using",
-  date: "2026-09-13",
   description:
     "Practical examples of Map upsert, iterator sequencing, lossless JSON parsing, and Uint8Array base64 APIs",
-  author: "Santosh Kalidindi",
+  slug: "es2026-features",
+  publishedAt: "2026-09-13",
+  tags: ["JavaScript", "ECMAScript"],
 };
 
 TC39's [finished proposals](https://github.com/tc39/proposals/blob/main/finished-proposals.md)
@@ -78,5 +79,20 @@ console.log(bytes.toBase64());
 // "SGVsbG8="
 ```
 
-Node 26 runs all four examples. Browser support still varies, so check the
-runtime targets before deleting a compatibility layer.
+## Ship against your runtime matrix
+
+Language editions describe the standard, not the date every runtime ships it.
+Check the environments you support before removing a compatibility layer.
+
+| API                                 | Main benefit              | Migration risk        |
+| ----------------------------------- | ------------------------- | --------------------- |
+| `Map.prototype.getOrInsertComputed` | One atomic-looking upsert | Callback behavior     |
+| `Iterator.concat`                   | Lazy sequencing           | Iterator consumption  |
+| `JSON.parse` source context         | Exact numeric recovery    | Reviver compatibility |
+| `Uint8Array` base64 methods         | Byte-native encoding      | Runtime availability  |
+
+### Treat support as a release constraint
+
+Feature detection is useful for optional behavior. For core data paths, set a
+minimum runtime version and test it in CI so deployment cannot quietly select an
+older engine.

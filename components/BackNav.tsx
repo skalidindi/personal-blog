@@ -2,13 +2,14 @@ import Link from "next/link";
 
 export function BackNav({ href, heading }: { href: string; heading: string }) {
   return (
-    <nav>
+    <nav aria-label={`Back to ${heading}`}>
       <Link
-        className="inline-flex items-center gap-2 group active:scale-95 active:bg-gray-100"
+        className="group inline-flex items-center gap-2 rounded-sm transition-colors hover:text-blue-600 active:scale-95 dark:hover:text-blue-400"
         href={href}
       >
         <svg
-          className="w-6 h-6 text-gray-500 transition-transform transform group-hover:-translate-x-1 group-hover:text-blue-500 active:text-blue-500"
+          aria-hidden="true"
+          className="h-6 w-6 text-gray-500 transition-transform group-hover:-translate-x-1 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400"
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -21,9 +22,7 @@ export function BackNav({ href, heading }: { href: string; heading: string }) {
           <path d="m12 19-7-7 7-7" />
           <path d="M19 12H5" />
         </svg>
-        <span className="group-hover:text-blue-500 active:text-blue-500">
-          {heading}
-        </span>
+        <span>{heading}</span>
       </Link>
     </nav>
   );

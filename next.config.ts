@@ -52,10 +52,25 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX({
   options: {
+    remarkPlugins: ["remark-gfm"],
     rehypePlugins: [
+      "rehype-slug",
+      ["rehype-autolink-headings", { behavior: "wrap" }],
       [
         "@shikijs/rehype",
         {
+          fallbackLanguage: "text",
+          langs: [
+            "bash",
+            "css",
+            "html",
+            "javascript",
+            "json",
+            "markdown",
+            "text",
+            "tsx",
+            "typescript",
+          ],
           themes: {
             light: "github-light",
             dark: "github-dark",

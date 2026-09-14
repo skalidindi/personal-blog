@@ -1,23 +1,41 @@
 import Link from "next/link";
 
-import { Post } from "@/app/blog/page";
+import { TagList } from "@/components/TagList";
 import { formatDate } from "@/util/date";
+import type { PostMetadata } from "@/util/post";
 
-export function PostLink({ post }: { post: Post }) {
+type PostLinkProps = {
+  post: Pick<
+    PostMetadata,
+    | "description"
+    | "publishedAt"
+    | "readingTimeMinutes"
+    | "slug"
+    | "tags"
+    | "title"
+  >;
+};
+
+export function PostLink({ post }: PostLinkProps) {
   return (
-    <Link
-      className="flex flex-col px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg dark:hover:drop-shadow-[0_4px_4px_rgba(255,255,255,0.15)] transition-shadow duration-300 active:scale-95 active:bg-gray-100 dark:active:bg-gray-700"
-      href={`/blog/${post.slug}`}
-    >
-      <time
-        className="text-sm text-gray-600 dark:text-gray-400"
-        dateTime={post.date}
-      >
-        {formatDate(post.date)}
-      </time>
-      <h2 className="font-semibold text-gray-900 dark:text-gray-100">
-        {post.title}
+    <article className="rounded-xl border border-gray-200 p-6 dark:border-gray-800">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        <span aria-hidden="true">/</span>
+        <span>{post.readingTimeMinutes} min read</span>
+      </div>
+      <h2 className="mt-3 text-2xl font-bold tracking-tight">
+        <Link
+          className="hover:text-blue-600 dark:hover:text-blue-400"
+          href={`/blog/${post.slug}`}
+        >
+          {post.title}
+        </Link>
       </h2>
-    </Link>
+      <p className="mt-2 leading-7 text-gray-600 dark:text-gray-300">
+        {post.description}
+      </p>
+      <TagList tags={post.tags} />
+    </article>
   );
 }
