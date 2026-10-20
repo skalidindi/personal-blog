@@ -76,7 +76,7 @@ test("the homepage exposes navigation and canonical metadata", async ({
   const wasDark = await page
     .locator("html")
     .evaluate((element) => element.classList.contains("dark"));
-  await page.getByRole("button", { name: "Toggle color theme" }).click();
+  await page.getByRole("button", { name: /^(Dark|Light)$/ }).click();
   await expect
     .poll(() =>
       page

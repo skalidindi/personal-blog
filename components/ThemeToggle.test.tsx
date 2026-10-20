@@ -13,9 +13,7 @@ describe("ThemeToggle", () => {
   it("persists the selected dark theme", async () => {
     render(<ThemeToggle />);
 
-    await userEvent.click(
-      screen.getByRole("button", { name: "Toggle color theme" }),
-    );
+    await userEvent.click(screen.getByRole("button", { name: /Dark/ }));
 
     expect(document.documentElement).toHaveClass("dark");
     expect(localStorage.getItem("theme")).toBe("dark");

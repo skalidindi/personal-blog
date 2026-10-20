@@ -14,7 +14,6 @@ export function ThemeToggle() {
 
   return (
     <button
-      aria-label="Toggle color theme"
       className="fixed top-4 right-4 z-50 inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 bg-stone-50/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur hover:border-blue-500 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-950/90 dark:hover:border-blue-400 dark:hover:text-blue-300"
       onClick={toggleTheme}
       type="button"
