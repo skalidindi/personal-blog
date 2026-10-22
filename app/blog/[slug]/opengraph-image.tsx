@@ -29,7 +29,7 @@ export default async function OpenGraphImage({
         width: "100%",
       }}
     >
-      <div style={{ color: "#a8a29e", fontSize: 28 }}>
+      <div style={{ color: "#a8a29e", display: "flex", fontSize: 28 }}>
         {siteConfig.url.hostname} / engineering notes
       </div>
       <div

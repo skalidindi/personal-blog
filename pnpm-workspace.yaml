@@ -1,3 +1,11 @@
 allowBuilds:
   "@sentry/cli": true
   lefthook: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - "@cloudflare/workers-response-store@1.1.2"
+  - "@vinext/cloudflare@1.2.0"
+  - cf@1.0.0-beta.20
+  - lucide-react@1.61.0
+  - vinext@1.3.0
+  - vite@8.3.5

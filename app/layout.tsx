@@ -79,8 +79,8 @@ export default function RootLayout({
           </Script>
           <ThemeToggle />
           {children}
-          <Analytics />
-          <SpeedInsights />
+          {process.env.VERCEL && <Analytics />}
+          {process.env.VERCEL && <SpeedInsights />}
         </body>
       </html>
     </ViewTransition>

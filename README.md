@@ -10,8 +10,8 @@ RSS, sitemap, and crawler metadata endpoints.
 
 Requirements:
 
-- Node.js 24.21.0 (`.node-version`)
-- pnpm 12.4.1
+- Node.js 24.22.1 (`.node-version`)
+- pnpm 12.14.0
 
 The Volta settings in `package.json` pin both versions. Install dependencies and
 start the development server with:
@@ -169,6 +169,61 @@ Deploy on Vercel or another host that supports the Next.js App Router. Set
 the pinned Node.js and pnpm versions from `package.json`.
 
 The production site is [www.santoshk.me](https://www.santoshk.me).
+
+### Cloudflare Workers with vinext
+
+The migration uses vinext, Cloudflare Vite plugin v2, and `cloudflare.config.ts`.
+The original Next.js scripts remain available during migration.
+
+```sh
+pnpm dev:vinext       # development on port 3001
+pnpm build:vinext     # production Worker and prerendered assets
+pnpm start:vinext     # local production Workers preview
+pnpm test:e2e:vinext  # browser checks against the Workers preview
+```
+
+`pnpm deploy:vinext` publishes the built Worker. Deployment, domain routing,
+and DNS cutover are separate from local verification.
+
+The setup follows the [vinext Cloudflare guide](https://vinext.dev/docs/deploying/cloudflare)
+and the installed `@vinext/cloudflare` adapters. Pages use the read-only Static
+Assets cache; no KV data cache is configured. Publishing content requires a
+rebuild and deployment. The `ASSETS` binding uses the adapter's default name.
+`runWorkerFirst: ["/*", ...]` protects the private `/_vinext/static-cache/`
+files; adding that directory as a second positive rule is redundant and rejected
+by the Cloudflare plugin. `IMAGES` supplies Cloudflare image optimization.
+
+See the [migration research](docs/cloudflare-migration-review.md) for official
+sources, upstream fixes, and conditions for removing the workarounds.
+
+Compatibility workarounds and limitations:
+
+- MDX is configured explicitly with `@mdx-js/rollup` because vinext 1.3.0's
+  automatic setup forwards Next's string plugin names without resolving them.
+  The Vite plugin filter excludes `?raw` imports because MDX otherwise compiles
+  source text that the post loader needs as a string. This is the one custom
+  plugin integration; no dependency files are patched. Keep the MDX options in
+  `next.config.ts` and `vite.config.ts` aligned.
+- A Vite alias selects `util/post-sources.vite.ts`, which uses documented
+  `import.meta.glob` and `?raw` imports to bundle content. Next keeps the original
+  filesystem loader. Workers cannot assume the source checkout exists.
+- React Compiler is enabled through `vinext({ react: { compiler: true } })`.
+  Vite 8 also requires the installed optional `oxc-transform-react` package.
+- Vinext currently treats React `ViewTransition` as a passthrough, so transition
+  animations are unavailable.
+- Sentry's Next build plugin features, including automatic source map upload,
+  do not run under Vite. Runtime configuration remains present; production
+  reporting has not been verified. Vercel Analytics and Speed Insights render
+  only when the Vercel environment flag is present.
+- Node-based prerendering warns that the Images binding is unavailable and
+  falls back to unoptimized images. The actual Workers preview uses `IMAGES`.
+  The beta RSC build also reports upstream source map and chunking warnings.
+
+If pnpm fails while switching to a missing managed version, repair the local
+pnpm/Volta installation before retrying. `pnpm install` alone does not add
+dependencies that the interrupted initializer never recorded. Do not rerun
+`vinext init` over this configured project; its static-cache validation rejects
+an existing Cloudflare configuration.
 
 ## License
 

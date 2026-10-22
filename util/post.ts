@@ -1,9 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-
 import GithubSlugger from "github-slugger";
 import { notFound } from "next/navigation";
 import { cache, type ComponentType } from "react";
+
+import { loadPostSources } from "@/util/post-sources";
 
 const WORDS_PER_MINUTE = 220;
 const POST_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -53,17 +52,6 @@ function isPostModule(value: unknown): value is PostModule {
     "metadata" in value &&
     typeof value.default === "function"
   );
-}
-
-function getPostsDirectory() {
-  return path.join(process.cwd(), "posts");
-}
-
-function getPostFilenames() {
-  return fs
-    .readdirSync(getPostsDirectory())
-    .filter((filename) => filename.endsWith(".mdx"))
-    .sort();
 }
 
 function metadataError(
@@ -290,31 +278,27 @@ export function extractHeadings(source: string): PostHeading[] {
 
 const loadPosts = cache(async (): Promise<Post[]> => {
   const posts = await Promise.all(
-    getPostFilenames().map(async (sourceFile) => {
-      const fileSlug = sourceFile.replace(/\.mdx$/, "");
-      const source = fs.readFileSync(
-        path.join(getPostsDirectory(), sourceFile),
-        "utf8",
-      );
-      const postModule: unknown = await import(`@/posts/${fileSlug}.mdx`);
-      if (!isPostModule(postModule)) {
-        throw new Error(
-          `${sourceFile}: must export metadata and a default MDX component`,
+    (await loadPostSources()).map(
+      async ({ sourceFile, source, postModule }) => {
+        if (!isPostModule(postModule)) {
+          throw new Error(
+            `${sourceFile}: must export metadata and a default MDX component`,
+          );
+        }
+        const metadata = validatePostMetadata(
+          postModule.metadata,
+          source,
+          sourceFile,
         );
-      }
-      const metadata = validatePostMetadata(
-        postModule.metadata,
-        source,
-        sourceFile,
-      );
 
-      return {
-        ...metadata,
-        Content: postModule.default,
-        headings: extractHeadings(source),
-        sourceFile,
-      };
-    }),
+        return {
+          ...metadata,
+          Content: postModule.default,
+          headings: extractHeadings(source),
+          sourceFile,
+        };
+      },
+    ),
   );
 
   assertUniquePostSlugs(posts);

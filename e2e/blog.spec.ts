@@ -218,6 +218,12 @@ test("SEO feeds and crawler endpoints advertise their content types", async ({
     { path: "/sitemap.xml", contentType: /(?:application|text)\/xml/ },
     { path: "/robots.txt", contentType: /text\/plain/ },
     { path: "/rss.xml", contentType: /application\/rss\+xml/ },
+    { path: "/opengraph-image", contentType: /image\/png/ },
+    { path: `${postPath}/opengraph-image`, contentType: /image\/png/ },
+    {
+      path: "/_next/image?url=%2Fsantosh.jpg&w=256&q=75",
+      contentType: /image\//,
+    },
   ];
 
   for (const endpoint of endpoints) {
@@ -247,4 +253,11 @@ test("SEO feeds and crawler endpoints advertise their content types", async ({
   const tagPage = await request.get("/blog/tags/javascript");
   expect(tagPage.ok()).toBe(true);
   expect(await tagPage.text()).toContain(postTitle);
+});
+
+test("private prerender cache files are not publicly accessible", async ({
+  request,
+}) => {
+  const response = await request.get("/_vinext/static-cache/index.json");
+  expect(response.status()).toBe(404);
 });

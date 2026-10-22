@@ -16,30 +16,40 @@
     "start": "next start",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:vinext": "E2E_TARGET=vinext playwright test",
     "test:watch": "vitest",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.15.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "16.4.2",
-    "@sentry/nextjs": "^10.75.0",
+    "@sentry/nextjs": "^11.8.0",
     "@shikijs/rehype": "^4.5.0",
     "@tailwindcss/typography": "^0.5.20",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "@vinext/cloudflare": "^1.2.0",
     "github-slugger": "^2.0.0",
-    "lucide-react": "^1.58.0",
+    "lucide-react": "^1.61.0",
     "next": "16.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-server-dom-webpack": "19.3.1",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "vinext": "^1.3.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
+    "@cloudflare/vite-plugin": "2.0.0-beta.v.3",
+    "@mdx-js/rollup": "^3.1.1",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/dom": "10.4.2",
@@ -47,28 +57,32 @@
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
     "@types/mdx": "^2.0.14",
-    "@types/node": "^24.13.4",
+    "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-rsc": "^0.5.38",
     "babel-plugin-react-compiler": "^1.0.0",
+    "cf": "1.0.0-beta.20",
     "jsdom": "^30.1.3",
-    "knip": "^6.41.0",
+    "knip": "^6.42.1",
     "lefthook": "^2.2.2",
-    "oxfmt": "^0.73.0",
-    "oxlint": "^1.88.0",
+    "oxc-transform-react": "^0.155.0",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
     "oxlint-tsgolint": "^7.0.2004",
     "tailwindcss": "^4.3.3",
     "typescript": "^7",
+    "vite": "8.3.5",
     "vitest": "^5.0.5"
   },
   "engines": {
     "node": "24.x",
-    "pnpm": ">=12.4.1 <13"
+    "pnpm": ">=12.14.0 <13"
   },
   "volta": {
-    "node": "24.21.0",
-    "pnpm": "12.4.1"
+    "node": "24.22.1",
+    "pnpm": "12.14.0"
   },
-  "packageManager": "pnpm@12.4.1"
+  "packageManager": "pnpm@12.14.0"
 }
