@@ -1,5 +1,3 @@
-import { fileURLToPath } from "node:url";
-
 import { cloudflare } from "@cloudflare/vite-plugin";
 import mdx from "@mdx-js/rollup";
 import rehypeShiki from "@shikijs/rehype";
@@ -42,13 +40,6 @@ const mdxPlugin = mdx({
 });
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      "@/util/post-sources": fileURLToPath(
-        new URL("./util/post-sources.vite.ts", import.meta.url),
-      ),
-    },
-  },
   plugins: [
     {
       ...mdxPlugin,

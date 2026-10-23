@@ -20,10 +20,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command:
-      process.env.E2E_TARGET === "vinext"
-        ? "pnpm build:vinext && pnpm start:vinext --host 127.0.0.1 --port 3100"
-        : "pnpm build && pnpm start --hostname 127.0.0.1 --port 3100",
+    command: "pnpm build && pnpm start --host 127.0.0.1 --port 3100",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     stdout: "ignore",

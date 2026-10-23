@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "entry": ["posts/**/*.mdx", "cloudflare.config.ts"],
+  "entry": ["posts/**/*.mdx", "mdx-components.tsx", "cloudflare.config.ts"],
   "lefthook": {
     "config": ["lefthook.yml"]
   },

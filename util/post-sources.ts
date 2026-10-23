@@ -1,19 +1,19 @@
-import fs from "node:fs";
-import path from "node:path";
+// Vite bundles the MDX and raw text; Workers do not contain the source checkout.
+const modules = import.meta.glob("../posts/*.mdx");
+const sources = import.meta.glob<string>("../posts/*.mdx", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 export async function loadPostSources() {
-  const directory = path.join(process.cwd(), "posts");
   return Promise.all(
-    fs
-      .readdirSync(directory)
-      .filter((file) => file.endsWith(".mdx"))
+    Object.keys(modules)
       .sort()
-      .map(async (sourceFile) => ({
-        sourceFile,
-        source: fs.readFileSync(path.join(directory, sourceFile), "utf8"),
-        postModule: (await import(
-          `@/posts/${sourceFile.replace(/\.mdx$/, "")}.mdx`
-        )) as unknown,
+      .map(async (modulePath) => ({
+        sourceFile: modulePath.slice("../posts/".length),
+        source: sources[modulePath],
+        postModule: await modules[modulePath](),
       })),
   );
 }

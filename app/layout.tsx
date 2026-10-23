@@ -1,5 +1,3 @@
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import Script from "next/script";
@@ -79,8 +77,6 @@ export default function RootLayout({
           </Script>
           <ThemeToggle />
           {children}
-          {process.env.VERCEL && <Analytics />}
-          {process.env.VERCEL && <SpeedInsights />}
         </body>
       </html>
     </ViewTransition>

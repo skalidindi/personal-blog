@@ -24,10 +24,9 @@ compiles a `?raw` source import. The Vite hook filter prevents that call.
 The upstream PR is evidence for the query bug; it does not address vinext's
 separate handling of Next's string plugin options.
 
-The Vite alias keeps the existing Next loader available during migration.
-It uses Vite's documented `resolve.alias`; it is a platform adapter, not a
-runtime fallback. Once the Next deployment path is retired, it can be removed
-and the bundled loader can become the sole implementation.
+The initial migration kept a Vite alias and a separate Next filesystem loader.
+After the production cutover, the bundled loader became the sole implementation
+in `util/post-sources.ts`; the alias and the filesystem loader were removed.
 
 Workers **does support `node:fs`** under our compatibility settings. Its read-only
 `/bundle` directory contains bundled modules, not the original source checkout.
@@ -104,3 +103,21 @@ After this correction, the complete `pnpm check` command passes, including
 Knip. Knip also exits successfully with `CI=true`; in that mode its plugin
 recognizes the Lefthook binary directly and emits an informational hint about
 the local-only dependency exclusion.
+
+## Retirement of the previous deployment (2026-10-23)
+
+Cloudflare Workers is now the only build and deployment target. The default
+`dev`, `build`, `start`, `deploy`, and E2E commands use vinext and Vite;
+`vinext typegen` generates route types. The parallel Next.js build, its MDX
+loader, Vercel Analytics, Speed Insights, script CSP exception, and Sentry
+webpack/Vercel monitor configuration have been removed. Sentry runtime
+instrumentation remains configured.
+
+`next.config.ts` remains as a plain configuration file for vinext's supported
+headers and page extensions. The `next` dependency and `next/*` imports provide
+API/type compatibility. The upstream `@vercel/og` dependency remains required
+by the social-image implementation; it does not require Vercel hosting.
+
+The domain is served by Cloudflare, and the Vercel project was deleted by its
+owner. The earlier deployment and verification statements above describe the
+migration at the time of that review.

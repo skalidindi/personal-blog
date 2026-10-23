@@ -2,9 +2,10 @@
 
 [![CI](https://github.com/skalidindi/personal-blog/actions/workflows/ci.yml/badge.svg)](https://github.com/skalidindi/personal-blog/actions/workflows/ci.yml)
 
-Personal blog built with the Next.js App Router. Posts are trusted local MDX
-modules, rendered with Tailwind CSS and published through the site's HTML,
-RSS, sitemap, and crawler metadata endpoints.
+Personal blog built with vinext on Cloudflare Workers, using the Next.js App
+Router conventions. Posts are trusted local MDX modules, rendered with Tailwind
+CSS and published through the site's HTML, RSS, sitemap, and crawler metadata
+endpoints.
 
 ## Local development
 
@@ -111,8 +112,8 @@ available at `/blog/tags/<tag-slug>`.
 
 ## MDX and styling pipeline
 
-Next.js compiles local `.mdx` files with `@next/mdx`. The configuration in
-`next.config.ts` uses:
+Vite compiles local `.mdx` files with `@mdx-js/rollup`. The configuration in
+`vite.config.ts` uses:
 
 - `remark-gfm` for GitHub-Flavored Markdown.
 - `rehype-slug` and `rehype-autolink-headings` for stable linked headings.
@@ -164,38 +165,33 @@ and crawlers agree on the canonical host.
 
 ## Deployment
 
-Deploy on Vercel or another host that supports the Next.js App Router. Set
-`SITE_URL` to the public canonical origin in the deployment environment and use
-the pinned Node.js and pnpm versions from `package.json`.
-
-The production site is [www.santoshk.me](https://www.santoshk.me).
-
-### Cloudflare Workers with vinext
-
-The migration uses vinext, Cloudflare Vite plugin v2, and `cloudflare.config.ts`.
-The original Next.js scripts remain available during migration.
+The production site is [www.santoshk.me](https://www.santoshk.me), served by the
+`personal-blog` Cloudflare Worker. The root domain redirects to `www` through a
+Cloudflare Redirect Rule. `next.config.ts` supplies routing extensions and
+security headers to vinext; there is no separate Next.js deployment.
 
 ```sh
-pnpm dev:vinext       # development on port 3001
-pnpm build:vinext     # production Worker and prerendered assets
-pnpm start:vinext     # local production Workers preview
-pnpm test:e2e:vinext  # browser checks against the Workers preview
+pnpm dev       # Vite development server on port 3000
+pnpm build     # production Worker and prerendered assets
+pnpm start     # local production Workers preview
+pnpm test:e2e  # browser checks against the Worker
+pnpm deploy    # build and publish the Worker
 ```
 
-`pnpm deploy:vinext` publishes the built Worker. Deployment, domain routing,
-and DNS cutover are separate from local verification.
+Set `SITE_URL` to the public canonical origin and use the pinned Node.js and
+pnpm versions from `package.json`. Publishing content requires a rebuild and
+deployment.
 
 #### Automatic deployments
 
 Use [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/)
 to connect the existing `personal-blog` Worker to `skalidindi/personal-blog`.
-Merge the migration into `main` before connecting it as the production branch.
 In the Worker's **Settings > Builds**, use:
 
 | Setting           | Value                                         |
 | ----------------- | --------------------------------------------- |
 | Production branch | `main`                                        |
-| Build command     | `pnpm check && pnpm build:vinext`             |
+| Build command     | `pnpm check && pnpm build`                    |
 | Deploy command    | `pnpm exec cf deploy --prebuilt`              |
 | Preview command   | `pnpm exec vinext-cloudflare previews deploy` |
 | Root directory    | Repository root                               |
@@ -209,16 +205,14 @@ because production Build Output cannot be deployed as a Preview. Cloudflare
 manages the deployment API token; no Cloudflare token needs to be added to
 GitHub Actions.
 
-Set the build variable `PNPM_VERSION=12.14.0` to match `packageManager`.
-The [build image](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/)
-reads Node 24.22.1 from `.node-version`. Keep these versions aligned when
-updating runtime pins. Workers Builds installs dependencies automatically.
+Workers Builds detects pnpm 12.14.0 from `packageManager` and Node 24.22.1
+from `.node-version`, then installs dependencies automatically. Keep those
+pins aligned when updating runtime versions. See the
+[build image documentation](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/).
 
-GitHub Actions checks quality and runs the eight browser tests against both
-the Next.js build and the local Cloudflare Worker. Require these checks before
-merging pull requests; Workers Builds runs `pnpm check` again before deploying
-each push to `main`. Verify the first automatic deployment at
-`https://www.santoshk.me` before removing the Vercel integration.
+GitHub Actions checks quality and runs the eight browser tests against the
+local Cloudflare Worker. Require these checks before merging pull requests;
+Workers Builds runs `pnpm check` again before deploying each push to `main`.
 
 The setup follows the [vinext Cloudflare guide](https://vinext.dev/docs/deploying/cloudflare)
 and the installed `@vinext/cloudflare` adapters. Pages use the read-only Static
@@ -237,19 +231,15 @@ Compatibility workarounds and limitations:
   automatic setup forwards Next's string plugin names without resolving them.
   The Vite plugin filter excludes `?raw` imports because MDX otherwise compiles
   source text that the post loader needs as a string. This is the one custom
-  plugin integration; no dependency files are patched. Keep the MDX options in
-  `next.config.ts` and `vite.config.ts` aligned.
-- A Vite alias selects `util/post-sources.vite.ts`, which uses documented
-  `import.meta.glob` and `?raw` imports to bundle content. Next keeps the original
-  filesystem loader. Workers cannot assume the source checkout exists.
+  plugin integration; no dependency files are patched.
+- `util/post-sources.ts` uses documented `import.meta.glob` and `?raw` imports
+  to bundle content. Workers cannot assume the source checkout exists.
 - React Compiler is enabled through `vinext({ react: { compiler: true } })`.
   Vite 8 also requires the installed optional `oxc-transform-react` package.
 - Vinext currently treats React `ViewTransition` as a passthrough, so transition
   animations are unavailable.
-- Sentry's Next build plugin features, including automatic source map upload,
-  do not run under Vite. Runtime configuration remains present; production
-  reporting has not been verified. Vercel Analytics and Speed Insights render
-  only when the Vercel environment flag is present.
+- Sentry runtime configuration remains present; production reporting has not
+  been verified. Vite source map upload is not configured.
 - Node-based prerendering warns that the Images binding is unavailable and
   falls back to unoptimized images. The actual Workers preview uses `IMAGES`.
   The beta RSC build also reports upstream source map and chunking warnings.
