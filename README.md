@@ -124,6 +124,20 @@ Vite compiles local `.mdx` files with `@mdx-js/rollup`. The configuration in
 copyable code blocks, and horizontally scrollable tables. Tailwind CSS 4 and
 `@tailwindcss/typography` style the rendered article with the `prose` classes.
 
+## Analytics
+
+Cloudflare's free Web Analytics collects traffic and Core Web Vitals for
+`www.santoshk.me`. The root layout loads the documented manual beacon in
+production; automatic zone-wide injection is disabled to avoid tracking other
+subdomains. The beacon token is a public site identifier, not a secret.
+
+View reports in the Cloudflare dashboard under **Web Analytics**. Workers Metrics
+separately reports requests, errors, and CPU usage. Sentry handles application
+errors, tracing, and replay.
+
+The security headers in `next.config.ts` permit the beacon script and collector,
+following the [Cloudflare CSP documentation](https://developers.cloudflare.com/web-analytics/faq/#what-do-i-need-to-add-to-my-content-security-policy-csp).
+
 ## Site URL, metadata, and feeds
 
 `SITE_URL` controls absolute URLs used by canonical metadata, Open Graph data,

@@ -3,11 +3,11 @@ import type { NextConfig } from "next";
 const isDevelopment = process.env.NODE_ENV === "development";
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com/beacon.min.js${isDevelopment ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data:",
   "font-src 'self' data:",
-  "connect-src 'self' https://o4507139431792640.ingest.us.sentry.io",
+  "connect-src 'self' https://o4507139431792640.ingest.us.sentry.io https://cloudflareinsights.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",

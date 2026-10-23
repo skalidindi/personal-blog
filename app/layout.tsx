@@ -77,6 +77,15 @@ export default function RootLayout({
           </Script>
           <ThemeToggle />
           {children}
+          {process.env.NODE_ENV === "production" && (
+            <Script
+              id="cloudflare-web-analytics"
+              type="module"
+              src="https://static.cloudflareinsights.com/beacon.min.js"
+              data-cf-beacon='{"token":"9ff6bf2901bc4fffbb763dea4086a34a"}'
+              strategy="afterInteractive"
+            />
+          )}
         </body>
       </html>
     </ViewTransition>
