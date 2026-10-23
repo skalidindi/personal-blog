@@ -185,6 +185,41 @@ pnpm test:e2e:vinext  # browser checks against the Workers preview
 `pnpm deploy:vinext` publishes the built Worker. Deployment, domain routing,
 and DNS cutover are separate from local verification.
 
+#### Automatic deployments
+
+Use [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/)
+to connect the existing `personal-blog` Worker to `skalidindi/personal-blog`.
+Merge the migration into `main` before connecting it as the production branch.
+In the Worker's **Settings > Builds**, use:
+
+| Setting           | Value                                         |
+| ----------------- | --------------------------------------------- |
+| Production branch | `main`                                        |
+| Build command     | `pnpm check && pnpm build:vinext`             |
+| Deploy command    | `pnpm exec cf deploy --prebuilt`              |
+| Preview command   | `pnpm exec vinext-cloudflare previews deploy` |
+| Root directory    | Repository root                               |
+
+The build command checks the code, then creates the Worker and prerendered
+assets. The deploy command publishes that existing Cloudflare Build Output.
+Leave branch preview builds disabled initially. If enabled later, the preview
+command creates separate Preview output and derives its name from the CI
+branch; it does not promote the Worker to production. This rebuild is required
+because production Build Output cannot be deployed as a Preview. Cloudflare
+manages the deployment API token; no Cloudflare token needs to be added to
+GitHub Actions.
+
+Set the build variable `PNPM_VERSION=12.14.0` to match `packageManager`.
+The [build image](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/)
+reads Node 24.22.1 from `.node-version`. Keep these versions aligned when
+updating runtime pins. Workers Builds installs dependencies automatically.
+
+GitHub Actions checks quality and runs the eight browser tests against both
+the Next.js build and the local Cloudflare Worker. Require these checks before
+merging pull requests; Workers Builds runs `pnpm check` again before deploying
+each push to `main`. Verify the first automatic deployment at
+`https://www.santoshk.me` before removing the Vercel integration.
+
 The setup follows the [vinext Cloudflare guide](https://vinext.dev/docs/deploying/cloudflare)
 and the installed `@vinext/cloudflare` adapters. Pages use the read-only Static
 Assets cache; no KV data cache is configured. Publishing content requires a
